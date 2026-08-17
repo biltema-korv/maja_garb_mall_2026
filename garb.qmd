@@ -1,0 +1,248 @@
+---
+title: "Förbättring av X med hjälp av Y på produkt Z"
+author: "Elev Elevkvist, Teknikprogrammet, Maja Beskowgymnasiet"
+date: "2026-06-07"
+lang: sv
+otherlangs:
+  - en
+abstract: |
+  The abstract is written in English. Describe what property (X) you measured,
+  what method (Y) you used to improve it, and what your specific product (Z) was.
+  State your key finding: was method Y effective for improving X on product type Z?
+  The abstract should be 150--250 words, self-contained, with no abbreviations,
+  footnotes, or citations.
+bibliography: references.bib
+csl: ieee.csl
+format:
+  pdf:
+    documentclass: article
+    pdf-engine: pdflatex
+    fontsize: 10pt
+    geometry: margin=1in
+    number-sections: true
+    colorlinks: true
+    link-citations: true
+---
+
+# Inledning
+
+Börja med att introducera den egenskap (X) som du har valt att förbättra och
+varför denna egenskap är viktig för din produkttyp. Exempel på mätbara egenskaper:
+
+- **Prestanda:** laddningstider, FPS, responsivitet, minnesanvändning
+- **Användarupplevelse:** användarvänlighet, tillgänglighet, behaglighet
+- **Kvalitet:** bildkvalitet, ljudkvalitet, noggrannhet, stabilitet
+- **Effektivitet:** energiförbrukning, kodkvalitet, genomströmning
+
+Beskriv det problem eller behov som motiverar din förbättring. Referera till
+vetenskapligt publicerad litteratur inom området [@arpachiDusseau18:osbook] och
+tidigare forskning om liknande förbättringsmetoder.
+
+## Produktbeskrivning
+
+Beskriv kortfattat din produkt (Z) och dess kontext.
+
+## Förbättringsmetod
+
+Introducera den metod (Y) du har valt för att förbättra egenskapen X. Förklara
+varför du tror att denna metod kan vara effektiv baserat på teori och tidigare
+forskning [@goodman1998housing].
+
+## Frågeställning och syfte
+
+Syftet med detta arbete är att utvärdera om metod Y är lämplig för att förbättra
+egenskap X för produkttyp Z.
+
+**Huvudfrågeställning:** Är metod Y en lämplig metod för att förbättra
+egenskap X för produkttyp Z?
+
+**Stödjande frågeställningar:**
+
+- Hur stor förbättring av X kan uppnås genom implementering av Y?
+- Vilka fördelar och nackdelar medför metod Y för produkttyp Z?
+- Är förbättringen statistiskt signifikant och praktiskt relevant?
+
+## Teori
+
+Redogör för de teoretiska grunderna för egenskap X, metod Y och produkttyp Z.
+Detta avsnitt ska vara objektivt och baserat på vetenskapligt publicerad
+litteratur [@waldspurger02]. Använd t.ex. Google Scholar och placera _bibtex citations_ i `references.bib`
+
+## Bakgrund
+
+Beskriv tidigare forskningsresultat och teknikutveckling som är relevant för
+din förbättringsstudie. Fokusera på tidigare studier av metod Y på liknande
+produkter och benchmarks för egenskap X inom ditt område.
+
+# Metod
+
+Din metod ska följa en tydlig före/efter-struktur:
+
+**Initial mätning → Implementering → Utvärderingsmätning → Analys**
+
+## Initial mätning (före förbättring)
+
+Beskriv exakt hur du mäter egenskap X på din ursprungliga produkt Z.
+
+**Mätverktyg och konfiguration:**
+
+- Vilka verktyg används för mätning
+- Systemkonfiguration (hårdvara, mjukvara, miljöinställningar)
+- Kalibrering och validering av mätverktyg
+
+**Mätprotokoll:**
+
+- Antal mätningar (minst n=30 för statistisk validitet)
+- Kontrollerade förhållanden (temperatur, belastning, nätverkshastighet etc.)
+- Uppvärmningsperiod innan mätning
+
+## Implementering av förbättring
+
+Beskriv steg-för-steg hur du implementerar metod Y, med motivering av
+konfigurationsval och dokumentation via versionshantering.
+
+## Utvärderingsmätning (efter förbättring)
+
+Upprepa mätningarna med identisk metodik som i den initiala mätningen.
+
+## Statistisk analys
+
+Beräkna beskrivande statistik (medelvärde, median, standardavvikelse) och utför
+ett lämpligt signifikanstest (t-test, Mann-Whitney U etc.) med signifikansnivå
+$\alpha = 0.05$. Beräkna även effektstorlek (Cohen's d).
+
+# Resultat
+
+Detta avsnitt presenterar objektiva resultat. Undvik tolkningar — dessa sparas
+till diskussionen.
+
+## Initiala mätningar
+
+Presentera resultaten från dina initiala mätningar i @tbl-baseline.
+
+| Statistik | Värde |
+|-----------|------:|
+| Medelvärde | 245.2 ms |
+| Standardavvikelse | 23.7 ms |
+| Antal observationer | 35 |
+| 95% konfidensintervall | 237--253 ms |
+
+: Beskrivande statistik för initiala mätningar. {#tbl-baseline}
+
+## Jämförande analys
+
+| Mått | Före | Efter |
+|------|-----:|------:|
+| Medelvärde | 245.2 ms | 187.4 ms |
+| Standardavvikelse | 23.7 ms | 19.2 ms |
+| Min | 198.5 ms | 155.1 ms |
+| Max | 291.8 ms | 223.7 ms |
+
+: Jämförelse av egenskap X före och efter implementering av metod Y. {#tbl-comparison}
+
+**Förbättringsresultat:**
+
+- Absolut förbättring: 57.8 ms
+- Relativ förbättring: 23.6%
+- Effektstorlek (Cohen's d): 2.74
+
+Grafer skapas med Python och sparas som bildfiler som sedan inkluderas i
+rapporten, till exempel med `matplotlib`:
+
+```python
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6.5, 2.8))
+ax.scatter(range(1, 36), fore, label='Före')
+ax.scatter(range(36, 71), efter, label='Efter')
+ax.set_xlabel('Mätning nr')
+ax.set_ylabel('Egenskap X (ms)')
+ax.legend()
+plt.savefig('scatter.pdf')
+```
+
+Se de bifogade filerna `scatter.py`, `bars.py` och `study_time.py` för den fullständiga koden,
+inklusive formatering som matchar rapportens typsnitt och storlek.
+
+![Scatterplot som visar mätvärden före (röd) och efter (grön) implementering av metod Y. Den streckade linjen markerar implementeringstidpunkten.](scatter.pdf){width=6.5in}
+
+![Jämförelse av medelvärde för egenskap X före och efter implementering.](bars.pdf){width=3.9in}
+
+## Statistisk signifikans
+
+```python
+t_stat, p_value = stats.ttest_ind(fore, efter)
+print(f"t = {t_stat:.2f}, p = {p_value:.4f}")
+```
+
+- t-statistik: $-12.47$
+- p-värde: $p < 0.001$
+- Slutsats: Statistiskt signifikant förbättring (p < 0.05)
+
+## Implementeringsanalys
+
+| Aspekt | Observation |
+|--------|-------------|
+| Implementeringstid | 3.2 timmar |
+| Kodförändring | +127 rader |
+| Bieffekter | +12 MB minnesanvändning |
+| Kompatibilitet | Fungerar på alla testade plattformar |
+
+: Observationer från implementeringen av metod Y. {#tbl-impl}
+
+Ekvationer formateras med LaTeX-syntax, exempelvis pq-formeln:
+
+$$x = -\frac{p}{2} \pm \sqrt{\left(\frac{p}{2}\right)^2 - q}$$ {#eq-pq}
+
+Bifogade bilder inkluderas med standardsyntax, se @fig-studytime.
+
+![Exempel på bifogad bild. Studietid mot betyg.](study_time.pdf){#fig-studytime width=5.2in}
+
+# Diskussion
+
+I denna del diskuteras och utvärderas resultaten i relation till syftet och
+frågeställningarna.
+
+## Utvärdering av förbättringens effektivitet
+
+Den uppmätta förbättringen på 23.6% kan betraktas som substantiell inom detta
+område. Jämfört med tidigare studier på liknande produkter [@waldspurger02]
+ligger resultatet i linje med förväntningar för denna typ av optimering. Med
+p < 0.001 och Cohen's d = 2.74 visar resultaten på en stark och tillförlitlig
+effekt.
+
+## Lämplighet av metod Y för produkttyp Z
+
+**Fördelar:**
+
+- Betydande förbättring utan negativ påverkan på funktionalitet
+- Relativt enkel implementering
+- Kompatibel med befintlig arkitektur
+
+**Nackdelar och begränsningar:**
+
+- Ökad minnesanvändning kan vara problematisk för resursbegränsade enheter
+- Implementering kräver viss fördjupad kunskap
+- Underhållskostnader kan öka på grund av ökad komplexitet
+
+## Metodkritik
+
+Mätningarna genomfördes i en kontrollerad miljö som kanske inte helt återspeglar
+verkliga användningsförhållanden. Resultaten är specifika för den testade
+produkttypen och generalisering bör göras med försiktighet.
+
+## Slutsats
+
+Studien visar att metod Y är en lämplig och effektiv metod för att förbättra
+egenskap X för produkttyp Z. Den statistiskt signifikanta förbättringen på
+23.6%, kombinerat med begränsade nackdelar, stöder implementering av denna
+metod i liknande sammanhang.
+
+## Vidare forskning
+
+Ofta lämnar man uppmaningar på slutet om hur forskningen kan tas vidare. Kanske bör någon annan metod testas? Kanske kan metoden appliceras på någon annan produkt eller område? Med fördel kan man referera till annan forskning som förslag på andra vinklar.
+
+# Källförteckning {.unnumbered}
+
+::: {#refs}
+:::
