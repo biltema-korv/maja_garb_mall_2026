@@ -1,6 +1,6 @@
 ---
-title: "Förbättring av X med hjälp av Y på produkt Z"
-author: "Elev Elevkvist, Teknikprogrammet, Maja Beskowgymnasiet"
+title: "Optimering av spelprojekt i Godot"
+author: "Colin Björkman, Teknikprogrammet, Maja Beskowgymnasiet"
 date: "2026-06-07"
 lang: sv
 otherlangs:
@@ -26,6 +26,11 @@ format:
 
 # Inledning
 
+Efter personligt övervägande har det bestämts att göra kod som skapats för ett tidigare projekt effektivare, syftet är att förbättra prestandan i spelet. 
+Projektet är ett spel skapat i spelmotorn Godot. Spelet är inte resursintensivt till att börja med. Målet är att fiender och möjligtvis ytterligare objekt tas bort när kameran är tillräckligt långt bort, och laddas in när den är nära nog, med hjälp av "distance culling".
+Därmed kommer förhoppningsvis genomsnittliga **FPS** att öka, och **CPU** och **GPU** användning att minska. Innan var alla fiender konstant inladdade i spelet, vilket är extremt ooptimerat. 
+Det är inte många fiender i spelet i aktuellt läge, men skillnaden blir väldigt tydlig och värdefull om det är i stora nummer.
+
 Börja med att introducera den egenskap (X) som du har valt att förbättra och
 varför denna egenskap är viktig för din produkttyp. Exempel på mätbara egenskaper:
 
@@ -40,7 +45,10 @@ tidigare forskning om liknande förbättringsmetoder.
 
 ## Produktbeskrivning
 
-Beskriv kortfattat din produkt (Z) och dess kontext.
+Det är ett top-down 2D spel gjort i spelmotorn Godot som jag skapade för ungefär ett och ett halvt år sedan. Programmeringsspråket som användes var **GDScript**, vilket påminner mycket om **Python**.
+Allting visuellt i spelet är i en "pixel art" stil, som liknar gamla 16-bitars spel.
+Det liknar top-down spelen i *"The Legend of Zelda"* spel-serien i spelupplevelse och inspiration för grafik.
+Du utforskar en liten värld där det finns pengar att hitta och fiender att slåss mot. Med pengarna går det att köpa vissa grejer. I nuläget körs fienders kod och animationer oberoende på spelarens position. Fienderna kan besegras och försvinner därefter från spelet. ("queue_free") 
 
 ## Förbättringsmetod
 
@@ -49,6 +57,8 @@ varför du tror att denna metod kan vara effektiv baserat på teori och tidigare
 forskning [@goodman1998housing].
 
 ## Frågeställning och syfte
+
+Kommer spelet att uppnå högre genomsnittlig FPS och mindre RAM användning om jag använder ett system i ett Godot Projekt som “deloadar” saker som inte syns på skärmen?
 
 Syftet med detta arbete är att utvärdera om metod Y är lämplig för att förbättra
 egenskap X för produkttyp Z.
@@ -74,7 +84,17 @@ Beskriv tidigare forskningsresultat och teknikutveckling som är relevant för
 din förbättringsstudie. Fokusera på tidigare studier av metod Y på liknande
 produkter och benchmarks för egenskap X inom ditt område.
 
+I [@fedotova2023research] artikeln undersöks olika optimerings metoder som används inom spelindustrin, där det testas i spelmotorn "Unreal Engine 5", och mäter effektiviteten av metoderna. Slutsatsen blev att Occlusion Culling och Frustum Culling bör användas i alla spel med sprites och modeller. Distance Culling hjälper i spel med en öppen värld, LOD (Level of Detail) för spel med komplicerade modeller, Level Streaming för stora banor som kan vara svårt att visa hela tiden, och Nanite System för stora projekt med high poly, som inte har tid för optimering. Occlusion Culling, Frustum Culling och Distance Culling ser då ut som något som kan vara relevant att implementera i mitt projekt.
+
+I Lehtola Aleksis artikel diskuteras optimering inom projekt i spelmotorn "Unity", där de använder profilering, prioritering av optimeringsåtgärder och mätning av prestanda. , [@lehtola2018optimizing]
+
 # Metod
+
+Först ska initiala värdena mätas med hjälp av inbyggda "Debugger" funktionen i Godot, sedan in i "Monitors". I Monitors finns värden som "FPS", "Memory" -> "Static" och "StaticMax". Därefter ska ändringarna implementeras. Först skapas en backup med den äldre versionen, för att enklare hitta igen originala koden. När fiender är utanför kamerans vy, ska dess kod bli pausad och fienden flyttas till en av markörerna som de automatiskt går runt. Om fienden blivit besegrad är den besegrad för alltid och kommer inte tillbaka, exakt som från början. Målet är att det inte ska vara någon märkbar skillnad för spelaren, utan enbart en optimering som gör att spelet får bättre prestanda.
+
+En metod för att testa extrema situationer kan vara att ha en stor mängd fiender i samma ställe, med deras kod och animationer igång. Då bör det vara mycket simplare att märka skillnader i prestanda från originala koden och den optimerade metoden. 
+
+Därefter ska resultaten före och efter jämföras, och analyseras för märkbara skillnader. Flera olika tester ska genomföras, med samma rörelser och mätning av resultaten. 
 
 Din metod ska följa en tydlig före/efter-struktur:
 
@@ -245,4 +265,4 @@ Ofta lämnar man uppmaningar på slutet om hur forskningen kan tas vidare. Kansk
 # Källförteckning {.unnumbered}
 
 ::: {#refs}
-:::
+::: 
